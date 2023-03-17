@@ -8,9 +8,7 @@ const Nav = (props) => {
     const dispatch = useDispatch();
 
     function handleLogout(event) {
-        console.log("hello");
         dispatch(logoutUser());
-        console.log("and goodbye");
     }
 
     return (
