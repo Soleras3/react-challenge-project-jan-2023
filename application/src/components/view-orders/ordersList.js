@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { OrderOptionContext } from '../../context/orderOptionContext';
+import './ordersList.css'
 
 const OrdersList = ({ orders, onEdit, onDelete }) => {
     const [editingOrder, setEditingOrder] = useState(null);
@@ -62,9 +63,11 @@ const OrdersList = ({ orders, onEdit, onDelete }) => {
                 </>
             );
             orderItemElement = (
-                <select value={orderItem} onChange={(event) => handleOrderChange(event)}>
-                    { optionContext.orderOptions }
-                </select>
+                <div className="order-select-wrapper">
+                    <select className="order-select" value={orderItem} onChange={(event) => handleOrderChange(event)}>
+                        { optionContext.orderOptions }
+                    </select>
+                </div>
             );
             quantityElement = (
                 <select value={quantity} onChange={(event) => handleQuantityChange(event)}>
