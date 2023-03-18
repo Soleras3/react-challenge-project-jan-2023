@@ -6,6 +6,7 @@ import './viewOrders.css';
 
 const ORDERS_URL = `${SERVER_IP}/api/current-orders`;
 const DELETE_ORDER_URL = `${SERVER_IP}/api/delete-order`;
+const EDIT_ORDER_URL = `${SERVER_IP}/api/edit-order`;
 
 export default function ViewOrders(props) {
     const [orders, setOrders] = useState([]);
@@ -47,8 +48,31 @@ export default function ViewOrders(props) {
         });
     }
 
-    function handleEdit(order, orderItem, quantity) {
-        // TODO
+    function handleEdit(order) {
+        const orderId = order._id;
+        fetch(EDIT_ORDER_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+                id: orderId,
+                order_item: order.order_item,
+                quantity: order.quantity,
+                ordered_by: order.ordered_by,
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(response => {
+            if(response.success) {
+                const updatedOrders = orders.map((oldOrder) =>
+                    oldOrder._id === orderId ? order : oldOrder
+                );
+                setOrders(updatedOrders);
+            } else {
+                console.log(`Error editing order ${orderId}`);
+            }
+        });
     }
 
     return (

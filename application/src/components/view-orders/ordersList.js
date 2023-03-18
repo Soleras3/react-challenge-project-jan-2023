@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 
 const OrdersList = ({ orders, onEdit, onDelete }) => {
     const [editingOrder, setEditingOrder] = useState(null);
-    const [orderItem, setOrderItem] = useState(null);
-    const [quantity, setQuantity] = useState(null);
+    const [orderItem, setOrderItem] = useState(undefined);
+    const [quantity, setQuantity] = useState(undefined);
 
     function handleEditing(order) {
         setOrderItem(order.order_item);
@@ -12,25 +12,21 @@ const OrdersList = ({ orders, onEdit, onDelete }) => {
     }
 
     function handleEdited(order, isConfirmed) {
-        setEditingOrder(null);
         if (!isConfirmed) {
-            setOrderItem(null);
-            setQuantity(null);
+            setEditingOrder(null);
+            setOrderItem(undefined);
+            setQuantity(undefined);
             return
         };
-
-        onEdit(order, orderItem, quantity);
-
-        setOrderItem(null);
-        setQuantity(null);
+        onEdit({ ...order, order_item: orderItem, quantity });
     }
 
     function handleOrderChange(event) {
-        setOrderItem(event.value);
+        setOrderItem(event.target.value);
     }
 
     function handleQuantityChange(event) {
-        setQuantity(event.value);
+        setQuantity(event.target.value);
     }
 
     if (!orders || !orders.length) return (
