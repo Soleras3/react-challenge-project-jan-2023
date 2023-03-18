@@ -1,13 +1,11 @@
 import React, { useContext, useState } from 'react';
-import { OrderOptionContext } from '../../context/orderOptionContext';
+import { orderOptions, quantityOptions } from '../../context/orderOptionDisplayData';
 import './ordersList.css'
 
 const OrdersList = ({ orders, onEdit, onDelete }) => {
     const [editingOrder, setEditingOrder] = useState(null);
     const [orderItem, setOrderItem] = useState(undefined);
     const [quantity, setQuantity] = useState(undefined);
-
-    const optionContext = useContext(OrderOptionContext);
 
     function handleEditing(order) {
         setOrderItem(order.order_item);
@@ -65,13 +63,13 @@ const OrdersList = ({ orders, onEdit, onDelete }) => {
             orderItemElement = (
                 <div className="order-select-wrapper">
                     <select className="order-select" value={orderItem} onChange={(event) => handleOrderChange(event)}>
-                        { optionContext.orderOptions }
+                        { orderOptions }
                     </select>
                 </div>
             );
             quantityElement = (
                 <select value={quantity} onChange={(event) => handleQuantityChange(event)}>
-                    { optionContext.quantityOptions }
+                    { quantityOptions }
                 </select>
             );
         }

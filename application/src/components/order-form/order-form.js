@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Template } from '../../components';
 import { SERVER_IP } from '../../private';
-import { OrderOptionContext } from '../../context/orderOptionContext';
+import { orderOptions, quantityOptions } from '../../context/orderOptionDisplayData';
 import './orderForm.css';
 
 const ADD_ORDER_URL = `${SERVER_IP}/api/add-order`;
@@ -10,8 +10,6 @@ const ADD_ORDER_URL = `${SERVER_IP}/api/add-order`;
 export default function OrderForm(props) {
     const [orderItem, setOrderItem] = useState("");
     const [quantity, setQuantity] = useState("1");
-
-    const optionContext = useContext(OrderOptionContext);
 
     const menuItemChosen = (event) => setOrderItem(event.value);
     const menuQuantityChosen = (event) => setQuantity(event.value);
@@ -47,11 +45,11 @@ export default function OrderForm(props) {
                         className="menu-select"
                     >
                         <option value="" defaultValue disabled hidden>Lunch menu</option>
-                        { optionContext.orderOptions }
+                        { orderOptions }
                     </select><br />
                     <label className="qty-label">Qty:</label>
                     <select value={quantity} onChange={(event) => menuQuantityChosen(event)}>
-                        { optionContext.quantityOptions }
+                        { quantityOptions }
                     </select>
                     <button type="button" className="order-btn" onClick={() => submitOrder()}>Order It!</button>
                 </form>
