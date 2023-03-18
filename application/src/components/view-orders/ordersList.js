@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { OrderOptionContext } from '../../context/orderOptionContext';
 
 const OrdersList = ({ orders, onEdit, onDelete }) => {
     const [editingOrder, setEditingOrder] = useState(null);
     const [orderItem, setOrderItem] = useState(undefined);
     const [quantity, setQuantity] = useState(undefined);
+
+    const optionContext = useContext(OrderOptionContext);
 
     function handleEditing(order) {
         setOrderItem(order.order_item);
@@ -60,20 +63,12 @@ const OrdersList = ({ orders, onEdit, onDelete }) => {
             );
             orderItemElement = (
                 <select value={orderItem} onChange={(event) => handleOrderChange(event)}>
-                    <option value="Soup of the Day">Soup of the Day</option>
-                    <option value="Linguini With White Wine Sauce">Linguini With White Wine Sauce</option>
-                    <option value="Eggplant and Mushroom Panini">Eggplant and Mushroom Panini</option>
-                    <option value="Chili Con Carne">Chili Con Carne</option>
+                    { optionContext.orderOptions }
                 </select>
             );
             quantityElement = (
                 <select value={quantity} onChange={(event) => handleQuantityChange(event)}>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
+                    { optionContext.quantityOptions }
                 </select>
             );
         }
