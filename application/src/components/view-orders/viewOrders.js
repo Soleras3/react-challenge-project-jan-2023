@@ -4,11 +4,14 @@ import { SERVER_IP } from '../../private';
 import OrdersList from './ordersList';
 import './viewOrders.css';
 
+const ORDERS_URL = `${SERVER_IP}/api/current-orders`;
+const DELETE_ORDER_URL = `${SERVER_IP}/api/delete-order`;
+
 export default function ViewOrders(props) {
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
-        fetch(`${SERVER_IP}/api/current-orders`)
+        fetch(ORDERS_URL)
             .then(response => response.json())
             .then(response => {
                 if(response.success) {
@@ -19,11 +22,37 @@ export default function ViewOrders(props) {
             });
     }, [])
 
+    function handleDelete(order) {
+        if (!window.confirm("Are you sure you want to delete this order?")) {
+            return;
+        }
+        const orderId = order._id;
+        fetch(DELETE_ORDER_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+                id: orderId,
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(response => {
+            if(response.success) {
+                const updatedOrders = orders.filter(o => o._id != orderId);
+                setOrders(updatedOrders);
+            } else {
+                console.log(`Error deleting order ${orderId}`);
+            }
+        });
+    }
+
     return (
         <Template>
             <div className="container-fluid">
                 <OrdersList
                     orders={orders}
+                    onDelete={(order) => handleDelete(order)}
                 />
             </div>
         </Template>
