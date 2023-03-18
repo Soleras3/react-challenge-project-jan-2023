@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Template } from '../../components';
 import { SERVER_IP } from '../../private';
+import { orderOptions, quantityOptions } from '../../context/orderOptionDisplayData';
 import './orderForm.css';
 
 const ADD_ORDER_URL = `${SERVER_IP}/api/add-order`;
@@ -38,25 +39,17 @@ export default function OrderForm(props) {
             <div className="form-wrapper">
                 <form>
                     <label className="form-label">I'd like to order...</label><br />
-                    <select 
-                        value={orderItem} 
+                    <select
+                        value={orderItem}
                         onChange={(event) => menuItemChosen(event)}
                         className="menu-select"
                     >
                         <option value="" defaultValue disabled hidden>Lunch menu</option>
-                        <option value="Soup of the Day">Soup of the Day</option>
-                        <option value="Linguini With White Wine Sauce">Linguini With White Wine Sauce</option>
-                        <option value="Eggplant and Mushroom Panini">Eggplant and Mushroom Panini</option>
-                        <option value="Chili Con Carne">Chili Con Carne</option>
+                        { orderOptions }
                     </select><br />
                     <label className="qty-label">Qty:</label>
                     <select value={quantity} onChange={(event) => menuQuantityChosen(event)}>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
+                        { quantityOptions }
                     </select>
                     <button type="button" className="order-btn" onClick={() => submitOrder()}>Order It!</button>
                 </form>

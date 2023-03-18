@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'; 
+import { connect } from 'react-redux';
 import { loginUser } from '../../../redux/actions/authActions'
 
 const mapActionsToProps = dispatch => ({
@@ -17,7 +17,7 @@ class LoginForm extends Component {
   login(e) {
     e.preventDefault();
     this.props.commenceLogin(this.state.email, this.state.password);
-    this.props.onLogin();
+    this.props.onLogin(true);
   }
 
   onChange(key, val) {
