@@ -47,11 +47,16 @@ export default function ViewOrders(props) {
         });
     }
 
+    function handleEdit(order, orderItem, quantity) {
+        // TODO
+    }
+
     return (
         <Template>
             <div className="container-fluid">
                 <OrdersList
                     orders={orders}
+                    onEdit={(order) => handleEdit(order)}
                     onDelete={(order) => handleDelete(order)}
                 />
             </div>
