@@ -8,7 +8,9 @@ export default function ViewOrders(props) {
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
-        fetch(`${SERVER_IP}/api/current-orders`)
+        let interval;
+        (function liveUpdateLoop() {
+            fetch(`${SERVER_IP}/api/current-orders`)
             .then(response => response.json())
             .then(response => {
                 if(response.success) {
@@ -17,7 +19,16 @@ export default function ViewOrders(props) {
                     console.log('Error getting orders');
                 }
             });
-    }, [])
+
+            interval = setTimeout(() => {
+              liveUpdateLoop();
+            }, 5000);
+          })();
+
+        return () => {
+            clearInterval(interval);
+        };
+    }, []);
 
     return (
         <Template>
